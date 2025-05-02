@@ -12,10 +12,18 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      // "@common": ["libs/common/src"],
+      // "@common/*": ["libs/common/src/*"],
+      "@auth": ["src/auth"],
+      "@auth/*": ["src/auth/*"],
+      "@user": ["src/user"],
+      "@user/*": ["src/user/*"]
+    }
   }
 }
