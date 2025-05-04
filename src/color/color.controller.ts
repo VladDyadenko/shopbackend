@@ -13,6 +13,7 @@ import {
 import { ColorService } from './color.service'
 import { Auth } from '@auth/decorators/auth.decorator'
 import { CreateColorDto } from './dto/create-color.dto'
+import { UpdateColorDto } from './dto/color-update.dto'
 
 @Controller('colors')
 export class ColorController {
@@ -45,7 +46,7 @@ export class ColorController {
 	@HttpCode(200)
 	@Auth()
 	@Put(':id')
-	async update(@Param('id') id: string, @Body() dto: CreateColorDto) {
+	async update(@Param('id') id: string, @Body() dto: UpdateColorDto) {
 		return await this.colorService.update(id, dto)
 	}
 

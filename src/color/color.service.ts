@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma.service'
 import { CreateColorDto } from './dto/create-color.dto'
+import { UpdateColorDto } from './dto/color-update.dto'
 
 @Injectable()
 export class ColorService {
@@ -35,7 +36,7 @@ export class ColorService {
 		})
 	}
 
-	async update(id: string, dto: CreateColorDto) {
+	async update(id: string, dto: UpdateColorDto) {
 		await this.getById(id)
 
 		return await this.prismaService.color.update({
@@ -49,7 +50,7 @@ export class ColorService {
 	async delete(id: string) {
 		await this.getById(id)
 
-		return this.prismaService.store.delete({
+		return this.prismaService.color.delete({
 			where: {
 				id
 			}
