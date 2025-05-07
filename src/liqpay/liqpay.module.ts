@@ -1,0 +1,9 @@
+import { Module } from '@nestjs/common';
+import { LiqpayService } from './liqpay.service';
+import { LiqpayController } from './liqpay.controller';
+
+@Module({
+  controllers: [LiqpayController],
+  providers: [LiqpayService],
+})
+export class LiqpayModule {}

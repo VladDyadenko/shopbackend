@@ -10,6 +10,7 @@ import { OrderModule } from './order/order.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { ProductModule } from './product/product.module';
 import { ReviewModule } from './review/review.module';
+import { LiqpayModule } from './liqpay/liqpay.module';
 
 @Module({
 	imports: [
@@ -25,7 +26,8 @@ import { ReviewModule } from './review/review.module';
 		OrderModule,
 		StatisticsModule,
 		ProductModule,
-		ReviewModule
+		ReviewModule,
+		LiqpayModule
 	]
 })
 export class AppModule {}
