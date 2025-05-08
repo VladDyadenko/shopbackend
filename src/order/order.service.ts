@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { OrderDto } from './dto/order.dto';
 import { LiqpayService } from 'src/liqpay/liqpay.service';
-import { PaymentStatusDto } from './dto/payment-status.dto';
 
 @Injectable()
 export class OrderService {
@@ -57,9 +56,20 @@ export class OrderService {
       //   в продакшн не потрібно
       html,
     };
-    }
-    
-    async confirmOrder(dto: PaymentStatusDto) {
-        
-    }
+  }
+
+  async confirmOrder(paymentData) {
+    console.log('🚀 ~ OrderService ~ confirmOrder ~ paymentData:', paymentData);
+    await this.prismaService.order.update({
+      where: { id: paymentData.order.id },
+      data: {
+        status: 'PAYED',
+        // liqpayPaymentId: paymentData.payment_id,
+        // payerPhone: paymentData.sender_phone,
+        // payerEmail: paymentData.sender_email,
+        // card: paymentData.sender_card_mask2,
+        // cardBank: paymentData.sender_card_bank,
+      },
+    });
+  }
 }
