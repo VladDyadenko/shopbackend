@@ -9,7 +9,7 @@ export class LiqpayController {
   @Post('callback')
   handleCallback(@Body() body: { data: string; signature: string }) {
     try {
-      this.logger.log('Отримано callback від LiqPay', { data: body.data });
+      // this.logger.log('Отримано callback від LiqPay', { data: body.data });
 
       // Перевірка підпису
       const isValid = this.liqpayService.verifyCallback(
@@ -25,7 +25,7 @@ export class LiqpayController {
       const paymentData = JSON.parse(
         Buffer.from(body.data, 'base64').toString(),
       );
-      this.logger.debug('Розкодовані дані платежу', paymentData);
+      // this.logger.debug('Розкодовані дані платежу', paymentData);
 
       // Обробка статусу
       if (
