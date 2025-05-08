@@ -16,7 +16,7 @@ export class LiqpayService {
       description: `Оплата замовлення #${orderId}`,
       order_id: orderId,
       sandbox: 1,
-      result_url: `${process.env.RESULT_URL_LIQPAY}/order/${orderId}`,
+      result_url: `${process.env.RESULT_URL_LIQPAY}/thanks`,
       server_url: `${process.env.SERVER_URL_LIQPAY}/liqpay/callback`,
     };
 
@@ -43,7 +43,7 @@ export class LiqpayService {
     return signature === expectedSignature;
   }
 
-  // Створення форми для переходу на фронт
+  // Створення форми для переходу на фронт ТЕСТОВЕ, в продакшн не потрібно!!!
   createLiqPayForm(data: string, signature: string): string {
     return `
       <html>

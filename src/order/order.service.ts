@@ -46,11 +46,14 @@ export class OrderService {
 
     const paymentData = this.liqPayService.createPaymentData(order.id, total);
     const { data, signature } = paymentData;
+
+    // Створення форми для переходу на фронт ТЕСТОВЕ, в продакшн не потрібно!!!
     const html = this.liqPayService.createLiqPayForm(data, signature);
 
     return {
       order,
       paymentData,
+      //   в продакшн не потрібно
       html,
     };
   }
