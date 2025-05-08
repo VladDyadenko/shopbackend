@@ -1,13 +1,17 @@
 import { Body, Controller, Logger, Post } from '@nestjs/common';
 import { LiqpayService } from './liqpay.service';
+import { OrderService } from 'src/order/order.service';
 
 @Controller('liqpay')
 export class LiqpayController {
   private readonly logger = new Logger(LiqpayController.name);
-  constructor(private readonly liqpayService: LiqpayService) {}
+  constructor(
+    private readonly liqpayService: LiqpayService,
+    private orderService: OrderService,
+  ) {}
 
   @Post('callback')
-  handleCallback(@Body() body: { data: string; signature: string }) {
+  async handleCallback(@Body() body: { data: string; signature: string }) {
     try {
       // this.logger.log('Отримано callback від LiqPay', { data: body.data });
 
@@ -25,7 +29,7 @@ export class LiqpayController {
       const paymentData = JSON.parse(
         Buffer.from(body.data, 'base64').toString(),
       );
-      // this.logger.debug('Розкодовані дані платежу', paymentData);
+      this.logger.debug('Розкодовані дані платежу', paymentData);
 
       // Обробка статусу
       if (
@@ -36,7 +40,7 @@ export class LiqpayController {
           `Успішний платіж для замовлення ${paymentData.order_id}`,
         );
         // Тут оновлюємо статус замовлення в базі
-        // await this.orderService.confirmOrder(paymentData.order_id, paymentData);
+        await this.orderService.confirmOrder(paymentData);
       } else {
         this.logger.warn(
           `Невідомий статус платежу: ${paymentData.status}`,
