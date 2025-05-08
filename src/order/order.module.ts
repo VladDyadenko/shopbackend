@@ -7,5 +7,6 @@ import { LiqpayService } from 'src/liqpay/liqpay.service';
 @Module({
   controllers: [OrderController],
   providers: [OrderService, PrismaService, LiqpayService],
+  exports: [OrderService],
 })
 export class OrderModule {}
