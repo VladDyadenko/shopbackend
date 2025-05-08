@@ -13,8 +13,6 @@ export class LiqpayController {
   @Post('callback')
   async handleCallback(@Body() body: { data: string; signature: string }) {
     try {
-      // this.logger.log('Отримано callback від LiqPay', { data: body.data });
-
       // Перевірка підпису
       const isValid = this.liqpayService.verifyCallback(
         body.data,
@@ -29,7 +27,7 @@ export class LiqpayController {
       const paymentData = JSON.parse(
         Buffer.from(body.data, 'base64').toString(),
       );
-      this.logger.debug('Розкодовані дані платежу', paymentData);
+      // this.logger.debug('Розкодовані дані платежу', paymentData);
 
       // Обробка статусу
       if (
@@ -41,19 +39,35 @@ export class LiqpayController {
         );
         // Тут оновлюємо статус замовлення в базі
         await this.orderService.confirmOrder(paymentData);
-      } else {
+      } else if (paymentData.status === 'failure') {
         this.logger.warn(
-          `Невідомий статус платежу: ${paymentData.status}`,
+          `Платіж НЕ вдалий для замовлення ${paymentData.order_id}`,
           paymentData,
         );
+
+        await this.orderService.failOrder(paymentData);
+      } else if (paymentData.status === 'reversed') {
+        this.logger.warn(
+          `Платіж ПОВЕРНЕНИЙ для замовлення ${paymentData.order_id}`,
+          paymentData,
+        );
+
+        await this.orderService.failOrder(paymentData);
+      } else if (paymentData.status === 'error') {
+        this.logger.error(
+          `LiqPay повернув статус ERROR для замовлення ${paymentData.order_id}`,
+          paymentData,
+        );
+
+        await this.orderService.failOrder(paymentData);
       }
 
-      return { status: 'ok' }; // Важливо! LiqPay чекає 200 OK
+      return { status: 'ok' };
     } catch (error) {
       this.logger.error('Помилка обробки callback', {
         error: error.message,
         stack: error.stack,
-        body, // Логуємо вхідні дані для діагностики
+        body,
       });
       throw error; // Повертаємо 500, щоб LiqPay повторив спробу
     }

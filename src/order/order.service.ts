@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { OrderDto } from './dto/order.dto';
 import { LiqpayService } from 'src/liqpay/liqpay.service';
+import { LiqPayCallbackDto } from './dto/payment-status.dto';
+import { EnumOrderStatus } from 'generated/prisma';
 
 @Injectable()
 export class OrderService {
@@ -58,17 +60,20 @@ export class OrderService {
     };
   }
 
-  async confirmOrder(paymentData) {
-    console.log('🚀 ~ OrderService ~ confirmOrder ~ paymentData:', paymentData);
+  async confirmOrder(dto: LiqPayCallbackDto) {
     await this.prismaService.order.update({
-      where: { id: paymentData.order.id },
+      where: { id: dto.order_id },
       data: {
-        status: 'PAYED',
-        // liqpayPaymentId: paymentData.payment_id,
-        // payerPhone: paymentData.sender_phone,
-        // payerEmail: paymentData.sender_email,
-        // card: paymentData.sender_card_mask2,
-        // cardBank: paymentData.sender_card_bank,
+        status: EnumOrderStatus.PAYED,
+      },
+    });
+  }
+
+  async failOrder(dto: LiqPayCallbackDto) {
+    await this.prismaService.order.update({
+      where: { id: dto.order_id },
+      data: {
+        status: EnumOrderStatus.PENDING,
       },
     });
   }

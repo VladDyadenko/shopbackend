@@ -1,26 +1,39 @@
-class AmountPayment {
-  value: string;
-  currency: string;
-}
-
-class ObjectPayment {
-  id: string;
-  status: string;
-  amount: AmountPayment;
-  payment_method: {
-    type: string;
-    id: string;
-    saved: boolean;
-    title: string;
-    card: object;
-  };
-  created_at: string;
-  expires_at: string;
-  description: string;
-}
-
-export class PaymentStatusDto {
-  event: 'success' | 'captcha_verify' | 'failure' | 'reversed';
+export class LiqPayCallbackDto {
+  payment_id: number;
+  action: string;
+  status: 'success' | 'failure' | 'sandbox' | 'error' | 'reversed';
+  version: number;
   type: string;
-  object: ObjectPayment;
+  paytype: string;
+  public_key: string;
+  acq_id: number;
+  order_id: string;
+  liqpay_order_id: string;
+  description: string;
+  sender_first_name?: string;
+  sender_last_name?: string;
+  sender_card_mask2?: string;
+  sender_card_bank?: string;
+  sender_card_type?: string;
+  sender_card_country?: number;
+  ip: string;
+  amount: number;
+  currency: string;
+  sender_commission: number;
+  receiver_commission: number;
+  agent_commission: number;
+  amount_debit: number;
+  amount_credit: number;
+  commission_debit: number;
+  commission_credit: number;
+  currency_debit: string;
+  currency_credit: string;
+  sender_bonus?: number;
+  amount_bonus?: number;
+  mpi_eci?: string;
+  is_3ds?: boolean;
+  language?: string;
+  create_date: number;
+  end_date: number;
+  transaction_id: number;
 }
