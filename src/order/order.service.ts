@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { OrderDto } from './dto/order.dto';
 import { LiqpayService } from 'src/liqpay/liqpay.service';
+import { PaymentStatusDto } from './dto/payment-status.dto';
 
 @Injectable()
 export class OrderService {
@@ -56,5 +57,9 @@ export class OrderService {
       //   в продакшн не потрібно
       html,
     };
-  }
+    }
+    
+    async confirmOrder(dto: PaymentStatusDto) {
+        
+    }
 }

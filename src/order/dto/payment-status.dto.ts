@@ -20,11 +20,7 @@ class ObjectPayment {
 }
 
 export class PaymentStatusDto {
-  event:
-    | 'payment.succeeded'
-    | 'payment.waiting_for_capture'
-    | 'payment.canceled'
-    | 'refund.succeeded';
+  event: 'success' | 'captcha_verify' | 'failure' | 'reversed';
   type: string;
   object: ObjectPayment;
 }
