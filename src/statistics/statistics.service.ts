@@ -28,14 +28,14 @@ export class StatisticsService {
   async getMainStatistics(storeId: string) {
     const totalRevenue = await this.calculateTotalRevenue(storeId);
 
-    const productsCountss = await this.countProducts(storeId);
+    const productsCounts = await this.countProducts(storeId);
     const categoriesCount = await this.countCategories(storeId);
 
     const averageRating = await this.calculateAverageRating(storeId);
 
     return [
       { id: 1, name: 'Виручка', value: totalRevenue },
-      { id: 2, name: 'Товари', value: productsCountss },
+      { id: 2, name: 'Товари', value: productsCounts },
       { id: 3, name: 'Категорії', value: categoriesCount },
       { id: 4, name: 'Середній рейтинг', value: averageRating },
     ];
@@ -52,7 +52,9 @@ export class StatisticsService {
     const orders = await this.prismaService.order.findMany({
       where: {
         items: {
-          some: { id: storeId },
+          some: {
+            storeId,
+          },
         },
       },
       include: {
@@ -61,14 +63,12 @@ export class StatisticsService {
         },
       },
     });
-
     const totalRevenue = orders.reduce((acc, order) => {
       const total = order.items.reduce((itemAcc, item) => {
         return itemAcc + item.price * item.quantity;
       }, 0);
       return acc + total;
     }, 0);
-
     return totalRevenue;
   }
 
@@ -161,7 +161,7 @@ export class StatisticsService {
           include: {
             items: {
               where: { storeId },
-              select: { price: true },
+              select: { price: true, quantity: true },
             },
           },
         },
@@ -170,9 +170,10 @@ export class StatisticsService {
 
     return lastUsers.map((user) => {
       const lastOrder = user.orders[user.orders.length - 1];
+      if (!lastOrder) return { ...user, total: 0 };
 
       const total = lastOrder.items.reduce((total, item) => {
-        return total + item.price;
+        return total + item.price * item.quantity;
       }, 0);
 
       return {
