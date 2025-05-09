@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import * as dayjs from 'dayjs';
-import 'dayjs/locale/ua';
+import 'dayjs/locale/uk';
 import { PrismaService } from 'src/prisma.service';
 
-dayjs.locale('ua');
+dayjs.locale('uk');
 
 const monthNames = [
   'січ',
