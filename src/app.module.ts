@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
-import { AuthModule } from './auth/auth.module'
-import { UserModule } from './user/user.module'
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 import { ColorModule } from './color/color.module';
 import { CategoryModule } from './category/category.module';
 import { FileModule } from './file/file.module';
@@ -13,21 +13,21 @@ import { ReviewModule } from './review/review.module';
 import { LiqpayModule } from './liqpay/liqpay.module';
 
 @Module({
-	imports: [
-		ConfigModule.forRoot({
-			isGlobal: true
-		}),
-		AuthModule,
-		UserModule,
-		ColorModule,
-		CategoryModule,
-		FileModule,
-		StoreModule,
-		OrderModule,
-		StatisticsModule,
-		ProductModule,
-		ReviewModule,
-		LiqpayModule
-	]
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    AuthModule,
+    UserModule,
+    ColorModule,
+    CategoryModule,
+    FileModule,
+    StoreModule,
+    OrderModule,
+    StatisticsModule,
+    ProductModule,
+    ReviewModule,
+    LiqpayModule,
+  ],
 })
 export class AppModule {}
