@@ -8,9 +8,11 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.enableCors({
-    origin: [process.env.CLIENT_URL],
+    origin: ['http://localhost:3000', 'https://shop-web-pied.vercel.app'],
     credentials: true,
-    exposedHeaders: 'set-cookie',
+    exposedHeaders: ['Set-Cookie'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   });
   await app.listen(PORT, () => console.log(`Server started on port=${PORT}`));
 }

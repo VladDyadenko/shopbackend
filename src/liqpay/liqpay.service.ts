@@ -6,12 +6,12 @@ export class LiqpayService {
   private publicKey = process.env.LIQPAY_PUBLIC_KEY;
   private privateKey = process.env.LIQPAY_PRIVATE_KEY;
 
-  createPaymentData(orderId: string, amount: number, currency: string = 'UAH') {
+  createPaymentData(orderId: string, total: number, currency: string = 'UAH') {
     const params = {
       public_key: this.publicKey,
       version: '3',
       action: 'pay',
-      amount,
+      total,
       currency,
       description: `Оплата замовлення #${orderId}`,
       order_id: orderId,

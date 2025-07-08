@@ -27,10 +27,10 @@ export class OrderService {
       quantity: item.quantity,
       price: item.price,
     }));
+
     const total = dto.items.reduce((acc, item) => {
       return acc + item.price * item.quantity;
     }, 0);
-
     const order = await this.prismaService.order.create({
       data: {
         status: dto.status,
@@ -45,13 +45,11 @@ export class OrderService {
         },
       },
     });
-
     const paymentData = this.liqPayService.createPaymentData(order.id, total);
     const { data, signature } = paymentData;
 
     // Створення форми для переходу на фронт ТЕСТОВЕ, в продакшн не потрібно!!!
     const html = this.liqPayService.createLiqPayForm(data, signature);
-
     return {
       order,
       paymentData,
