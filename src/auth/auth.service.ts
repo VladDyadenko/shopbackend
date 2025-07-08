@@ -97,11 +97,6 @@ export class AuthService {
     expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN);
 
     const isProduction = this.configService.get('NODE_ENV') === 'production';
-    console.log(
-      '🚀 ~ AuthService ~ addRefreshTokenToRespons ~ isProduction:',
-      isProduction,
-    );
-
     res.cookie(this.REFRESH_TOKEN_NAME, refreshToken, {
       httpOnly: true,
       secure: isProduction, // true только в production
