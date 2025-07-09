@@ -93,7 +93,7 @@ export class AuthController {
     this.authService.addRefreshTokenToRespons(res, refreshToken);
 
     return res.redirect(
-      `${process.env['CLIENT_URL']}/dashboard?accessToken=${response.accessToken}`,
+      `https://shop-web-pied.vercel.app/dashboard?accessToken=${response.accessToken}`,
     );
   }
 }
