@@ -12,7 +12,7 @@ async function bootstrap() {
     credentials: true,
     exposedHeaders: ['Set-Cookie'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   });
   await app.listen(PORT, () => console.log(`Server started on port=${PORT}`));
 }
